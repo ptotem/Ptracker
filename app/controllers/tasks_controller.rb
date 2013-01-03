@@ -3,12 +3,13 @@ class TasksController < ApplicationController
   # GET /tasks.json
   def index
     if params[:project_id]
-      @tasks = Project.find(params[:project_id]).tasks.order('created_at DESC')
+      @tasks = Project.find(params[:project_id]).tasks.order('created_at ASC').order('start_date ASC')
     elsif params[:user_id]
-      @tasks = User.find(params[:user_id]).tasks.order('created_at DESC')
+      @tasks = User.find(params[:user_id]).tasks.order('created_at ASC')
     else
-      @tasks = Task.order('created_at DESC').all
+      @tasks = Task.order('created_at ASC').all
     end
+    @task=Task.new
 
     respond_to do |format|
       format.html # index.html.erb
@@ -105,12 +106,25 @@ class TasksController < ApplicationController
     if @target.save
       TaskCompetence.find_all_by_task_id(@source.id).each do |task_competence|
         task_competence.task_id=@target.id
-        task_competence.save! unless (TaskCompetence.find_all_by_competence_id_and_task_id(task_competence.competence_id,task_competence.task_id).length>1)
+        task_competence.save! unless (TaskCompetence.find_all_by_competence_id_and_task_id(task_competence.competence_id, task_competence.task_id).length>1)
       end
       @source.destroy
     end
     render :text => @target.name
   end
 
+  def mark_complete
+    @task=Task.find(params[:id])
+    @task.complete=true
+    @task.save
+    redirect_to :back
+  end
+
+  def reactivate
+    @task=Task.find(params[:id])
+    @task.complete=false
+    @task.save
+    redirect_to :back
+  end
 
 end

@@ -1,8 +1,8 @@
-class Page < ActiveRecord::Base
+class Feature < ActiveRecord::Base
   attr_accessible :name, :project_id, :complete
   belongs_to :project
-  has_many :page_tasks, :dependent => :destroy
-  has_many :tasks, :through => :page_tasks, :dependent => :destroy
+  has_many :feature_tasks, :dependent => :destroy
+  has_many :tasks, :through => :feature_tasks, :dependent => :destroy
 
   rails_admin do
     edit do
@@ -16,11 +16,11 @@ class Page < ActiveRecord::Base
   after_create :make_tasks
 
   def make_tasks
-    task_list=["Contents", "Page Design", "Assets", "Page Mockup", "Controller Logic", "Integration"]
-    task_list_competency=["Content", "Design", "Design", "UI", "Backend", "Logic"]
+    task_list=["Research", "Data Model", "Fake Data", "Algorithm", "Coding", "Testing", "Integration"]
+    task_list_competency=["Content", "Data Design", "Backend", "Logic", "Backend", "Content", "Backend"]
     task_list.each_with_index do |master_task, index|
       task=Task.create!(project_id: project_id, name: "#{project.name} #{name} - #{master_task} ")
-      PageTask.create!(task_id: task.id, page_id: id)
+      FeatureTask.create!(task_id: task.id, feature_id: id)
       TaskCompetence.create!(task_id: task.id, competence_id: Competence.find_by_name(task_list_competency[index]).id)
     end
   end

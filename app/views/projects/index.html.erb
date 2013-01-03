@@ -1,9 +1,30 @@
 <div class="block">
   <div class="content">
-    <h2 class="title"><%= t("web-app-theme.all", :default => "All") %> Projects</h2>
+    <h2 class="title">
+      Projects
+      <a class="btn btn-primary pull-right" data-backdrop="static" data-toggle="modal" href="#new_project">New Project</a>
+
+      <div class="modal hide fade" id="new_project">
+        <div class="modal-header">
+          <a class="close" data-dismiss="modal">×</a>
+
+          <h3>New Project</h3>
+        </div>
+        <%= semantic_form_for @project do |f| %>
+            <div class="modal-body">
+              <%= f.inputs :name %>
+              <h5 style="margin-top: -40px"><%= f.check_box :internal %> Internal</h5>
+            </div>
+            <div class="modal-footer">
+              <%= f.submit "Save Changes", :class => "btn btn-primary" %>
+              <a href="#" class="btn btn-danger" data-dismiss="modal">Close</a>
+            </div>
+            </div>
+        <% end %>
+        </h2>
 
     <div class="inner">
-      <table class="table">
+      <table class="table table-striped">
         <% @projects.each do |project| -%>
             <tr class="<%= cycle("odd", "even") %>">
               <td style="font-size: 24px;padding:10px;">
@@ -16,7 +37,7 @@
                 <div class="btn-group pull-right">
                   <%= link_to "Tasks", project_tasks_path(project), :class => "btn btn-primary" %>
                   <%= link_to "Mark Complete", edit_project_path(project), :class => "btn btn-success" %>
-                  <%= link_to "Delete", project_path(project), :method => :delete, :confirm => "Are you sure?", :class=>"btn btn-danger" %>
+                  <%= link_to "Delete", project_path(project), :method => :delete, :confirm => "Are you sure?", :class => "btn btn-danger" %>
                 </div>
               </td>
             </tr>

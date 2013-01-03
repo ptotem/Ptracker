@@ -1,3 +1,10 @@
+<script type="text/javascript">
+    $(function () {
+        $.datepicker.setDefaults({
+            altFormat:"yyyy-mm-dd" });
+    })
+</script>
+
 <div class="block">
   <div class="content">
     <h2 class="title">
@@ -8,7 +15,32 @@
       <% else %>
           All Tasks
       <% end %>
-    </h2>
+
+      <a class="btn btn-primary pull-right spaced" data-backdrop="static" data-toggle="modal" href="#new_project">New
+        Task</a>
+      <% if params[:project_id] %>
+          <%= link_to "Page List", "/projects/#{params[:project_id]}/page_list", :class => "btn btn-primary pull-right spaced" %>
+          <%= link_to "Feature List", "/projects/#{params[:project_id]}/feature_list", :class => "btn btn-primary pull-right spaced" %>
+      <% end %>
+
+      <div class="modal hide fade" id="new_project">
+        <div class="modal-header">
+          <a class="close" data-dismiss="modal">×</a>
+
+          <h3>New Task</h3>
+        </div>
+        <%= semantic_form_for @task do |f| %>
+            <div class="modal-body">
+              <%= f.inputs :name %>
+            </div>
+            <div class="modal-footer">
+              <%= f.submit "Save Changes", :class => "btn btn-primary" %>
+              <a href="#" class="btn btn-danger" data-dismiss="modal">Close</a>
+            </div>
+            </div>
+        <% end %>
+
+        </h2>
 
     <div class="inner">
       <table class="table table-striped">
@@ -17,7 +49,7 @@
             <tr class="draggable" id="<%= task.id %>">
               <td style="font-size: 24px;padding:10px;"><%= best_in_place task, :name, :type => :textarea %></td>
               <% if params[:project_id] %>
-                  <td><%= task.uname %></td>
+                  <td><%= best_in_place task, :user_id, :type => :select, :collection => User.all.map { |u| [u.id, u.name] } %></td>
               <% else %>
                   <td><%= task.project.name %></td>
                   <td><%= task.uname %></td>
@@ -25,11 +57,15 @@
               <td><%= task.complete ? "Complete" :"" %></td>
               <td><%= best_in_place_if (current_user.role=="Projects"), task, :start_date, :type => :date %></td>
               <td class="last">
-                <div class="btn-group pull-right">
-                  <a class="btn btn-primary" data-backdrop="static" data-toggle="modal" href="#splitter_<%= task.id %>">Split</a>
-                  <%= link_to "Mark Complete", task, :class => "btn btn-success" %>
-                  <%= link_to "Delete", task_path(task), :method => :delete, :confirm => "Are you sure?", :class => "btn btn-danger" %>
-                </div>
+                <% if task.complete %>
+                    <%= link_to "Reactivate", reactivate_task_path(task), :class => "btn btn-primary pull-right" %>
+                <% else %>
+                    <div class="btn-group pull-right">
+                      <a class="btn btn-inverse" data-backdrop="static" data-toggle="modal" href="#splitter_<%= task.id %>">Split</a>
+                      <%= link_to "Mark Complete", mark_task_complete_path(task), :class => "btn btn-primary" %>
+                      <%= link_to "Delete", task_path(task), :method => :delete, :confirm => "Are you sure?", :class => "btn btn-danger" %>
+                    </div>
+                <% end %>
 
                 <div class="modal hide fade" id="splitter_<%= task.id %>">
                   <div class="modal-header">
@@ -56,10 +92,6 @@
   </div>
 </div>
 
-<br/>
-
-<%= link_to 'New Task', new_task_path %>
-
 <script type="text/javascript">
     $(function () {
         var c = {};
@@ -76,7 +108,7 @@
         $("tr.draggable").droppable({
             drop:function (event, ui) {
                 var inventor = ui.draggable.text();
-                $this=$(this);
+                $this = $(this);
                 var data = {source:[], target:[]};
                 data["source"].push(ui.draggable.attr('id'));
                 data["target"].push($(this).attr('id'));

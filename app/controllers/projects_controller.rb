@@ -3,6 +3,7 @@ class ProjectsController < ApplicationController
   # GET /projects.json
   def index
     @projects = Project.all
+    @project=Project.new
 
     respond_to do |format|
       format.html # index.html.erb
@@ -36,6 +37,26 @@ class ProjectsController < ApplicationController
   # GET /projects/1/edit
   def edit
     @project = Project.find(params[:id])
+  end
+
+  def page_list
+    @project = Project.find(params[:id])
+    @project.pages.build
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @project }
+    end
+    end
+
+  def feature_list
+    @project = Project.find(params[:id])
+    @project.features.build
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @project }
+    end
   end
 
   # POST /projects

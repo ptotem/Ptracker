@@ -10,8 +10,13 @@ Golpher::Application.routes.draw do
   end
   resources :tasks
 
+  match "/projects/:id/page_list", :to => "projects#page_list", :as => "page_list"
+  match "/projects/:id/feature_list", :to => "projects#feature_list", :as => "feature_list"
+
   match "/split_task/:id/:count", :to => "tasks#split_task", :as => "split_task"
   match "/combine_tasks", :to => "tasks#combine_tasks", :as => "combine_tasks"
+  match "tasks/:id/mark_complete", :to => "tasks#mark_complete", :as => "mark_task_complete"
+  match "tasks/:id/reactivate", :to => "tasks#reactivate", :as => "reactivate_task"
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
 
   # The priority is based upon order of creation:
