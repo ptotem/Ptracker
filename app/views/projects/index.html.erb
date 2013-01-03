@@ -1,0 +1,33 @@
+<div class="block">
+  <div class="content">
+    <h2 class="title"><%= t("web-app-theme.all", :default => "All") %> Projects</h2>
+
+    <div class="inner">
+      <table class="table">
+        <% @projects.each do |project| -%>
+            <tr class="<%= cycle("odd", "even") %>">
+              <td style="font-size: 24px;padding:10px;">
+                <%= link_to raw(project.name), edit_project_path(project) %>
+              </td>
+              <td>
+                <%= project.complete ? "Complete" : "" %>
+              </td>
+              <td class="last">
+                <div class="btn-group pull-right">
+                  <%= link_to "Tasks", project_tasks_path(project), :class => "btn btn-primary" %>
+                  <%= link_to "Mark Complete", edit_project_path(project), :class => "btn btn-success" %>
+                  <%= link_to "Delete", project_path(project), :method => :delete, :confirm => "Are you sure?", :class=>"btn btn-danger" %>
+                </div>
+              </td>
+            </tr>
+        <% end %>
+      </table>
+      <div class="actions-bar wat-cf">
+        <div class="actions">
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+

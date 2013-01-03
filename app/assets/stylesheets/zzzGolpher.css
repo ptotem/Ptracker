@@ -1,0 +1,4 @@
+.formtastic .stringish input, .formtastic input {
+    padding: 10px;
+    font-size:20px;
+}

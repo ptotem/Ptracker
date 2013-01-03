@@ -1,0 +1,35 @@
+<%= semantic_form_for @project do |f| %>
+
+    <h2 class="title">Edit Project
+      <%= f.submit "Submit", :class => "btn btn-primary pull-right" %>
+    </h2>
+    <div class="block">
+      <div class="content">
+        <div class="inner">
+          <br>
+          <%= f.inputs do %>
+              <%= f.input :name, :label => false, :placeholder => "Enter name of the project" %>
+          <% end %>
+          <div class="row">
+            <div class="span3">
+              <h2>Pages</h2>
+            </div>
+            <div class="span9">
+              <div class="items">
+                <%= f.nested_fields_for :pages do |f| %>
+                    <fieldset class="item">
+                      <%= f.text_field :name %>
+                      <a href="#" class="remove"><%= image_tag "remove.png", :style=>"width:32px" %></a>
+                      <%= f.hidden_field :id %>
+                      <%= f.hidden_field :_destroy %>
+                    </fieldset>
+                <% end %>
+              </div>
+              <a href="#" class="add">add page</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<% end %>
