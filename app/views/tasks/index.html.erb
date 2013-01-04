@@ -1,88 +1,156 @@
 <div class="block">
   <div class="content">
     <h2 class="title">
-      <% if params[:project_id] %>
-          Tasks in <%= Project.find(params[:project_id]).name %>
-      <% elsif params[:user_id] %>
-          Tasks for <%= User.find(params[:user_id]).name %>
-      <% else %>
-          All Tasks
-      <% end %>
-
-      <a class="btn btn-primary pull-right spaced" data-backdrop="static" data-toggle="modal" href="#new_project">New
-        Task</a>
-      <% if params[:project_id] %>
-          <%= link_to "Page List", "/projects/#{params[:project_id]}/page_list", :class => "btn btn-primary pull-right spaced" %>
-          <%= link_to "Feature List", "/projects/#{params[:project_id]}/feature_list", :class => "btn btn-primary pull-right spaced" %>
-      <% end %>
-
-      <div class="modal hide fade" id="new_project">
-        <div class="modal-header">
-          <a class="close" data-dismiss="modal">×</a>
-
-          <h3>New Task</h3>
+      <div class="row">
+        <div class="span6">
+          <% if params[:project_id] %>
+              Tasks in <%= Project.find(params[:project_id]).name %>
+          <% elsif params[:user_id] %>
+              Tasks for <%= User.find(params[:user_id]).name %>
+          <% else %>
+              All Tasks
+          <% end %>
         </div>
-        <%= semantic_form_for @task do |f| %>
-            <div class="modal-body">
-              <%= f.inputs :name %>
-            </div>
-            <div class="modal-footer">
-              <%= f.submit "Save Changes", :class => "btn btn-primary" %>
-              <a href="#" class="btn btn-danger" data-dismiss="modal">Close</a>
-            </div>
-            </div>
-        <% end %>
+        <div class="span6">
+          <div class="btn-group pull-right" style="margin-left:5px;margin-top:-2px;">
+            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+              Selected
+              <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a href="#" onclick="combine_tasks()">Combine</a></li>
+              <li><a href="#" onclick="delete_tasks()">Delete</a></li>
+            </ul>
+          </div>
+          <a class="btn btn-primary pull-right spaced" data-backdrop="static" data-toggle="modal" href="#new_project">New
+            Task</a>
+          <% if params[:project_id] %>
+              <%= link_to "Page List", "/projects/#{params[:project_id]}/page_list", :class => "btn btn-primary pull-right spaced" %>
+              <%= link_to "Feature List", "/projects/#{params[:project_id]}/feature_list", :class => "btn btn-primary pull-right spaced" %>
+          <% end %>
 
-        </h2>
+          <div class="modal hide fade" id="new_project">
+            <div class="modal-header">
+              <a class="close" data-dismiss="modal">×</a>
+
+              <h3>New Task</h3>
+            </div>
+            <%= semantic_form_for @task do |f| %>
+                <div class="modal-body">
+                  <%= f.inputs :name %>
+                </div>
+                <div class="modal-footer">
+                  <%= f.submit "Save Changes", :class => "btn btn-primary" %>
+                  <a href="#" class="btn btn-danger" data-dismiss="modal">Close</a>
+                </div>
+                </div>
+            <% end %>
+            </div>
+      </div>
+    </h2>
 
     <div class="inner">
       <table class="table table-striped">
         <tbody>
+
         <% @tasks.each do |task| %>
-            <tr class="draggable" id="<%= task.id %>" style="font-size: 24px;padding:10px;">
+            <tr class="draggable" id="taskblock_<%= task.id %>" style="font-size: 24px;padding:10px;line-height: 30px">
+              <td style="border-right: 5px solid #334; text-align:center">
+                <% if task.complete %>
+                    <%= image_tag "complete.png", :style => "max-height:30%" %>
+                <% else %>
+                    <%= check_box_tag "#{task.id}", task.id, false, :class => "checking_box" %>
+                <% end %>
+              </td>
               <td><%= best_in_place task, :name, :type => :textarea %></td>
-              <td><%= task.complete ? "Complete" :"" %></td>
               <td class="last">
                 <% if task.complete %>
                     <%= link_to "Reactivate", reactivate_task_path(task), :class => "btn btn-primary pull-right" %>
                 <% else %>
                     <div class="btn-group pull-right">
-                      <a class="btn btn-inverse" data-backdrop="static" data-toggle="modal" href="#splitter_<%= task.id %>">Split</a>
-                      <%= link_to "Mark Complete", mark_task_complete_path(task), :class => "btn btn-primary" %>
+                      <%= link_to "Done", mark_task_complete_path(task), :class => "btn btn-primary" %>
                       <%= link_to "Delete", task_path(task), :method => :delete, :confirm => "Are you sure?", :class => "btn btn-danger" %>
+                      <a class="btn btn-info" data-backdrop="static" data-toggle="modal" href="#splitter_<%= task.id %>">Split</a>
                     </div>
                 <% end %>
-
-                <div class="modal hide fade" id="splitter_<%= task.id %>">
-                  <div class="modal-header">
-                    <a class="close" data-dismiss="modal">×</a>
-
-                    <h3>Split the Task</h3>
-                  </div>
-                  <div class="modal-body">
-                    <h1>Into how many pieces</h1>
-                    <% (1..7).each do |i| %>
-                        <%= link_to i, split_task_path(task, i), :class => "btn btn-inverse" %>
-                    <% end %>
-                  </div>
-                  <div class="modal-footer">
-                    <a href="#" class="btn btn-danger" data-dismiss="modal">Close</a>
-                  </div>
-                </div>
               </td>
             </tr>
+
+            <div class="modal hide fade" id="splitter_<%= task.id %>">
+              <div class="modal-header">
+                <a class="close" data-dismiss="modal">×</a>
+
+                <h3>Split the Task</h3>
+              </div>
+              <div class="modal-body">
+                <h1>Into how many pieces</h1>
+                <% (1..7).each do |i| %>
+                    <%= link_to i, split_task_path(task, i), :class => "btn btn-inverse" %>
+                <% end %>
+              </div>
+              <div class="modal-footer">
+                <a href="#" class="btn btn-danger" data-dismiss="modal">Close</a>
+              </div>
+            </div>
+
         <% end %>
         </tbody>
       </table>
+
     </div>
   </div>
 </div>
 
 <script type="text/javascript">
+    function delete_tasks() {
+        var data = {combo:[]};
+        var checked_array = new Array();
+        $(".checking_box:checked").each(function () {
+            checked_array.push(this.id);
+        });
+        data["combo"].push(checked_array);
+        $.ajax({
+            url:"<%= delete_tasks_path %>",
+            type:"post",
+            data:JSON.stringify(data),
+            contentType:"application/json",
+            success:function (returning_data) {
+                var trigger = true;
+                $(".checking_box:checked").each(function () {
+                    $(this).parent().parent().remove();
+                });
+            }})
+    }
+    function combine_tasks() {
+        var data = {combo:[]};
+        var checked_array = new Array();
+        $(".checking_box:checked").each(function () {
+            checked_array.push(this.id);
+        });
+        data["combo"].push(checked_array);
+        $.ajax({
+            url:"<%= combine_tasks_path %>",
+            type:"post",
+            data:JSON.stringify(data),
+            contentType:"application/json",
+            success:function (returning_data) {
+                var trigger = true;
+                $(".checking_box:checked").each(function () {
+                    if (trigger) {
+                        $(this).parent().next().find(".best_in_place").html(returning_data);
+                        trigger = false;
+                    } else {
+                        $(this).parent().parent().remove();
+                    }
+                });
+            }})
+
+    }
+
     $(function () {
         var c = {};
 
-        $("tr.draggable").find("td:first").find(".best_in_place").draggable({
+        $("tr.draggable").draggable({
             helper:"clone",
             start:function (event, ui) {
                 c.tr = this;
@@ -97,22 +165,23 @@
 
 
         $("tr.draggable").droppable({
+            hoverClass:"ui-state-hover",
             drop:function (event, ui) {
                 var inventor = ui.draggable.text();
                 $this = $(this);
                 var data = {source:[], target:[]};
-                data["source"].push(ui.draggable.parent().parent().attr('id'));
-                data["target"].push($(this).attr('id'));
+                data["source"].push(ui.draggable.attr('id').split("_")[1]);
+                data["target"].push($(this).attr('id').split("_")[1]);
                 $.ajax({
                     url:"<%= combine_tasks_path %>",
                     type:"post",
                     data:JSON.stringify(data),
                     contentType:"application/json",
                     success:function (returning_data) {
-                        $(c.tr).parent().parent().remove();
+                        $(c.tr).remove();
                         $(c.helper).remove();
-                        $this.find("td:first").find(".best_in_place").html(returning_data);
-                    }})
+                        $this.find("td:first").next().find(".best_in_place").html(returning_data);
+                    }});
             }
         });
     });

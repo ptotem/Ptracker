@@ -20,5 +20,5 @@ User.create!(:name=>"Sachin Thakkar",:email => 'sachin@ptotem.com', :password =>
 User.create!(:name=>"Rakesh Rengaraj",:email => 'rakesh@ptotem.com', :password => 'p20o20e13', :password_confirmation => 'p20o20e13', :role=>"DevTeam")
 User.create!(:name=>"Indrajeet Mishra",:email => 'indrajeet@ptotem.com', :password => 'p20o20e13', :password_confirmation => 'p20o20e13', :role=>"DevTeam")
 
-Competence.create!([{name: "Design"},{name: "Logic"},{name: "Content"},{name: "Data Design"},{name: "UI"},{name: "Backend"}])
+Competence.create!([{name: "Architecture"},{name: "Design"},{name: "Logic"},{name: "Content"},{name: "Data Design"},{name: "UI Coding"},{name: "Backend Coding"},{name: "Unknown"}])
 

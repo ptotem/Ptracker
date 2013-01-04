@@ -15,6 +15,7 @@ Golpher::Application.routes.draw do
 
   match "/split_task/:id/:count", :to => "tasks#split_task", :as => "split_task"
   match "/combine_tasks", :to => "tasks#combine_tasks", :as => "combine_tasks"
+  match "/delete_tasks", :to => "tasks#delete_tasks", :as => "delete_tasks"
   match "tasks/:id/mark_complete", :to => "tasks#mark_complete", :as => "mark_task_complete"
   match "tasks/:id/reactivate", :to => "tasks#reactivate", :as => "reactivate_task"
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'

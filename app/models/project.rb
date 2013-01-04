@@ -25,15 +25,20 @@ class Project < ActiveRecord::Base
   after_create :make_tasks
 
   def make_tasks
-    task_list=["Initialization", "Graphic Design", "Data Design", "Access Control", "Algorithm", "Development", "Deployment"]
-    init_tasks=["Feature List", "Wireframes", "Page List"]
-    task_list_competency=["Content", "Design", "Logic"]
-    init_tasks.each_with_index do |master_task, index|
-      task=Task.create!(project_id: id, name: "#{name} #{master_task}")
+    task_list=["Feature List", "Wireframes", "Page List", "Initialization Approval", "Initialization"]
+    task_list_competency=["Architecture", "Design", "Architecture", "Architecture", "Architecture"]
+    task_list_remarks=["Put the Feature List in the Ptracker to complete",
+                       "Create a remark containing the Balsamic URL to the wireframes to complete",
+                       "Put the Page List in the Ptracker to complete",
+                       "",
+                       "Finalize name for the Project;
+                        Create the Git Repository;
+                        Edit the Readme to include the Feature List and Page List;
+                        Complete Project Planning by rearranging the Tasks into Dailies"]
+    task_list.each_with_index do |master_task, index|
+      task=Task.create!(project_id: id, name: "#{master_task}")
       TaskCompetence.create!(task_id: task.id, competence_id: Competence.find_by_name(task_list_competency[index]).id)
-    end
-    task_list.each do |master_task|
-      Task.create!(project_id: id, name: "#{name} #{master_task} Approval", user_id: 2)
+      TaskRemark.create!(task_id: task.id, user_id: User.find(1).id, remark: task_list_remarks[index])
     end
   end
 
