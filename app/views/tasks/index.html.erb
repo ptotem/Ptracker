@@ -1,10 +1,3 @@
-<script type="text/javascript">
-    $(function () {
-        $.datepicker.setDefaults({
-            altFormat:"yyyy-mm-dd" });
-    })
-</script>
-
 <div class="block">
   <div class="content">
     <h2 class="title">
@@ -46,8 +39,8 @@
       <table class="table table-striped">
         <tbody>
         <% @tasks.each do |task| %>
-            <tr class="draggable" id="<%= task.id %>">
-              <td style="font-size: 24px;padding:10px;"><%= best_in_place task, :name, :type => :textarea %></td>
+            <tr class="draggable" id="<%= task.id %>" style="font-size: 18px;padding:10px;">
+              <td><%= best_in_place task, :name, :type => :textarea %></td>
               <% if params[:project_id] %>
                   <td><%= best_in_place task, :user_id, :type => :select, :collection => User.all.map { |u| [u.id, u.name] } %></td>
               <% else %>
@@ -55,7 +48,6 @@
                   <td><%= task.uname %></td>
               <% end %>
               <td><%= task.complete ? "Complete" :"" %></td>
-              <td><%= best_in_place_if (current_user.role=="Projects"), task, :start_date, :type => :date %></td>
               <td class="last">
                 <% if task.complete %>
                     <%= link_to "Reactivate", reactivate_task_path(task), :class => "btn btn-primary pull-right" %>
@@ -96,11 +88,16 @@
     $(function () {
         var c = {};
 
-        $("tr.draggable").draggable({
+        $("tr.draggable").find("td:first").find(".best_in_place").draggable({
             helper:"clone",
             start:function (event, ui) {
                 c.tr = this;
                 c.helper = ui.helper;
+                ui.helper.css({
+                    "padding":"10px",
+                    "background":"orange",
+                    "borderRadius":"5px"
+                })
             }
         });
 
@@ -110,7 +107,7 @@
                 var inventor = ui.draggable.text();
                 $this = $(this);
                 var data = {source:[], target:[]};
-                data["source"].push(ui.draggable.attr('id'));
+                data["source"].push(ui.draggable.parent().parent().attr('id'));
                 data["target"].push($(this).attr('id'));
                 $.ajax({
                     url:"<%= combine_tasks_path %>",
@@ -118,7 +115,7 @@
                     data:JSON.stringify(data),
                     contentType:"application/json",
                     success:function (returning_data) {
-                        $(c.tr).remove();
+                        $(c.tr).parent().parent().remove();
                         $(c.helper).remove();
                         $this.find("td:first").find(".best_in_place").html(returning_data);
                     }})

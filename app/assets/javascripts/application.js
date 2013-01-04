@@ -15,7 +15,5 @@
 //= require jquery-ui
 //= require_tree .
 //= require jquery.nested-fields
+//= require jquery.purr
 //= require best_in_place
-jQuery(function($){
-  $.extend($.fn.datepicker.defaults, { format: 'dd-mm-yy' });
-});
