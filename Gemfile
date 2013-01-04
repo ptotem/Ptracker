@@ -14,6 +14,7 @@ gem 'web-app-theme'
 gem 'formtastic'
 gem 'awesome_nested_fields'
 gem 'best_in_place'
+gem 'chosen-rails'
 
 
 # Gems used only for assets and not required

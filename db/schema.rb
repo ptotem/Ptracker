@@ -30,9 +30,9 @@ ActiveRecord::Schema.define(:version => 20130104192244) do
     t.string   "name"
     t.integer  "project_id"
     t.boolean  "complete"
-    t.string   "type"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.string   "ftype",      :default => "Standard"
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
   end
 
   create_table "page_tasks", :force => true do |t|

@@ -3,20 +3,24 @@
     <h2 class="title">Features in <%= @project.name %>
       <%= f.submit "Submit", :class => "btn btn-primary pull-right" %>
     </h2>
+    <br>
     <div class="block">
       <div class="content">
         <div class="inner">
           <div class="items">
             <%= f.nested_fields_for :features do |f| %>
-                <fieldset class="item">
-                  <%= f.text_field :name, :placeholder=>"Enter Feature" %>
-                  <%= f.select :type, :collection=>[["Standard","Standard"],["Tweak","Tweak"],["Complex","Complex"],["Greenfield","Greenfield"]] %>
-                  <a href="#" class="remove"><%= image_tag "remove.png", :style => "width:32px" %></a>
+                <fieldset class="item" style="background:#223; padding: 10px;padding-bottom: 0px;padding-top: 20px; border-radius: 10px;margin-bottom: 10px">
+                  <%= f.inputs do %>
+                      <%= f.text_field :name, :placeholder => "Enter Feature" %>
+                      <a href="#" class="remove"><%= image_tag "remove.png", :style => "width:32px" %></a>
+                      <%= f.input :ftype, :as => :select, :collection => ["Tweak", "Standard", "Complex", "Greenfield"], :label => false, :include_blank=>false %>
+                  <% end %>
                   <%= f.hidden_field :id %>
                   <%= f.hidden_field :_destroy %>
                 </fieldset>
             <% end %>
           </div>
+          <br>
           <a href="#" class="add">add feature</a>
         </div>
       </div>

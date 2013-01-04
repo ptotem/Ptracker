@@ -16,8 +16,8 @@ class Page < ActiveRecord::Base
   after_create :make_tasks
 
   def make_tasks
-    task_list=["Contents", "Page Design", "Assets", "Page Mockup", "Controller Logic", "Integration"]
-    task_list_competency=["Content", "Design", "Design", "UI", "Backend", "Logic"]
+    task_list=["Assets & Mockup", "UI Coding", "Integration"]
+    task_list_competency=["Design", "UI", "Backend"]
     task_list.each_with_index do |master_task, index|
       task=Task.create!(project_id: project_id, name: "#{project.name} #{name} - #{master_task} ")
       PageTask.create!(task_id: task.id, page_id: id)

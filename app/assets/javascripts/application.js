@@ -17,3 +17,4 @@
 //= require jquery.nested-fields
 //= require jquery.purr
 //= require best_in_place
+//= require chosen-jquery
