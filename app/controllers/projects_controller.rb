@@ -81,7 +81,7 @@ class ProjectsController < ApplicationController
 
     respond_to do |format|
       if @project.update_attributes(params[:project])
-        format.html { redirect_to projects_path, notice: 'Project was successfully created.' }
+        format.html { redirect_to project_tasks_path(@project), notice: 'Project was successfully updated.' }
       else
         format.html { render action: "new" }
         format.json { render json: @project.errors, status: :unprocessable_entity }

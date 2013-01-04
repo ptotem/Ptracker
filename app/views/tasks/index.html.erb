@@ -39,14 +39,8 @@
       <table class="table table-striped">
         <tbody>
         <% @tasks.each do |task| %>
-            <tr class="draggable" id="<%= task.id %>" style="font-size: 18px;padding:10px;">
+            <tr class="draggable" id="<%= task.id %>" style="font-size: 24px;padding:10px;">
               <td><%= best_in_place task, :name, :type => :textarea %></td>
-              <% if params[:project_id] %>
-                  <td><%= best_in_place task, :user_id, :type => :select, :collection => User.all.map { |u| [u.id, u.name] } %></td>
-              <% else %>
-                  <td><%= task.project.name %></td>
-                  <td><%= task.uname %></td>
-              <% end %>
               <td><%= task.complete ? "Complete" :"" %></td>
               <td class="last">
                 <% if task.complete %>
