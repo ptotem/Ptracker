@@ -1,4 +1,5 @@
 Golpher::Application.routes.draw do
+  get "assignment/index"
   get "welcome/index"
 
   devise_for :users
@@ -10,8 +11,11 @@ Golpher::Application.routes.draw do
   end
   resources :tasks
 
+  match "/assignments", :to => "assignment#index", :as => "assignments"
+
   match "/projects/:id/page_list", :to => "projects#page_list", :as => "page_list"
   match "/projects/:id/feature_list", :to => "projects#feature_list", :as => "feature_list"
+  match "/projects/:id/competence", :to => "projects#competence", :as => "competence"
 
   match "/split_task/:id/:count", :to => "tasks#split_task", :as => "split_task"
   match "/combine_tasks", :to => "tasks#combine_tasks", :as => "combine_tasks"

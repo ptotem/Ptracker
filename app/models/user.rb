@@ -12,6 +12,5 @@ class User < ActiveRecord::Base
   ROLES = %w[Admin Projects Sales DevTeam Ex]
 
   has_many :tasks
-  has_many :task_remarks
 
 end

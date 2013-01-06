@@ -44,7 +44,7 @@ class ProjectsController < ApplicationController
     @project.pages.build
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html # page_list.html.erb
       format.json { render json: @project }
     end
     end
@@ -54,10 +54,22 @@ class ProjectsController < ApplicationController
     @project.features.build
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html # feature_list.html.erb
       format.json { render json: @project }
     end
   end
+
+  def competence
+    @project = Project.find(params[:id])
+    @tasks=project.tasks
+
+    respond_to do |format|
+      format.html # competence.html.erb
+      format.json { render json: @project }
+    end
+  end
+
+
 
   # POST /projects
   # POST /projects.json

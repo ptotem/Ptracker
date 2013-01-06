@@ -31,14 +31,10 @@ class Project < ActiveRecord::Base
                        "Create a remark containing the Balsamic URL to the wireframes to complete",
                        "Put the Page List in the Ptracker to complete",
                        "",
-                       "Finalize name for the Project;
-                        Create the Git Repository;
-                        Edit the Readme to include the Feature List and Page List;
-                        Complete Project Planning by rearranging the Tasks into Dailies"]
+                       "Finalize name for the Project; Create the Git Repository; Edit the Readme to include the Feature List and Page List; Complete Project Planning by rearranging the Tasks into Dailies"]
     task_list.each_with_index do |master_task, index|
-      task=Task.create!(project_id: id, name: "#{master_task}")
+      task=Task.create!(project_id: id, name: "#{master_task}", remark: task_list_remarks[index])
       TaskCompetence.create!(task_id: task.id, competence_id: Competence.find_by_name(task_list_competency[index]).id)
-      TaskRemark.create!(task_id: task.id, user_id: User.find(1).id, remark: task_list_remarks[index])
     end
   end
 

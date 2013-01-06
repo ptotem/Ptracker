@@ -1,3 +1,9 @@
+<style type="text/css">
+    .inputs ol {
+        list-style: none;
+        margin: 0;
+    }
+</style>
 <div class="block">
   <div class="content">
     <h2 class="title">
@@ -25,8 +31,9 @@
           <a class="btn btn-primary pull-right spaced" data-backdrop="static" data-toggle="modal" href="#new_project">New
             Task</a>
           <% if params[:project_id] %>
-              <%= link_to "Page List", "/projects/#{params[:project_id]}/page_list", :class => "btn btn-primary pull-right spaced" %>
-              <%= link_to "Feature List", "/projects/#{params[:project_id]}/feature_list", :class => "btn btn-primary pull-right spaced" %>
+              <%= link_to "Features", "/projects/#{params[:project_id]}/feature_list", :class => "btn btn-primary pull-right spaced" %>
+              <%= link_to "Pages", "/projects/#{params[:project_id]}/page_list", :class => "btn btn-primary pull-right spaced" %>
+              <%= link_to "Competences", "/projects/#{params[:project_id]}/competence", :class => "btn btn-primary pull-right spaced", :disabled=>true %>
           <% end %>
 
           <div class="modal hide fade" id="new_project">
@@ -68,13 +75,28 @@
                     <%= link_to "Reactivate", reactivate_task_path(task), :class => "btn btn-primary pull-right" %>
                 <% else %>
                     <div class="btn-group pull-right">
+                      <a class="btn" data-backdrop="static" data-toggle="modal" href="#remarker_<%= task.id %>">Show</a>
+                      <a class="btn btn-info" data-backdrop="static" data-toggle="modal" href="#splitter_<%= task.id %>">Split</a>
                       <%= link_to "Done", mark_task_complete_path(task), :class => "btn btn-primary" %>
                       <%= link_to "Delete", task_path(task), :method => :delete, :confirm => "Are you sure?", :class => "btn btn-danger" %>
-                      <a class="btn btn-info" data-backdrop="static" data-toggle="modal" href="#splitter_<%= task.id %>">Split</a>
                     </div>
                 <% end %>
               </td>
             </tr>
+
+            <div class="modal hide fade" id="remarker_<%= task.id %>">
+              <div class="modal-header">
+                <a class="close" data-dismiss="modal">×</a>
+                <h3><%= task.name %></h3>
+              </div>
+              <div class="modal-body">
+                <%= best_in_place task, :remark, :type => :textarea %>
+              </div>
+              <div class="modal-footer">
+                <a href="#" class="btn btn-primary">Save changes</a>
+                <a href="#" class="btn btn-danger" data-dismiss="modal">Close</a>
+              </div>
+            </div>
 
             <div class="modal hide fade" id="splitter_<%= task.id %>">
               <div class="modal-header">

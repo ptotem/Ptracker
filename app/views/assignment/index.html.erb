@@ -1,0 +1,14 @@
+<table class="table table-striped">
+  <% @users.each do |u| %>
+      <tr>
+        <td>
+          <%= u.name %>
+        </td>
+        <td>
+          <%= @user_status[u.name] %>
+        </td>
+        <td>
+        </td>
+      </tr>
+  <% end %>
+</table>

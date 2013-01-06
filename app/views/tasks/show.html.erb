@@ -1,25 +1,19 @@
-<p id="notice"><%= notice %></p>
+<div class="block">
+  <div class="content">
+    <h2 class="title">
+      <div class="row">
+        <div class="span6">
+          <%= "#{@task.project.name} #{@task.name}" %>
+        </div>
+        <div class="span6">
+          <a class="btn btn-primary pull-right spaced" data-backdrop="static" data-toggle="modal" href="#new_project">New
+            Task</a>
+        </div>
+      </div>
+    </h2>
 
-<p>
-  <b>Project:</b>
-  <%= @task.project_id %>
-</p>
+    <div class="inner">
 
-<p>
-  <b>User:</b>
-  <%= @task.user_id %>
-</p>
-
-<p>
-  <b>Name:</b>
-  <%= @task.name %>
-</p>
-
-<p>
-  <b>Complete:</b>
-  <%= @task.complete %>
-</p>
-
-
-<%= link_to 'Edit', edit_task_path(@task) %> |
-<%= link_to 'Back', tasks_path %>
+    </div>
+  </div>
+</div>

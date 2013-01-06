@@ -8,6 +8,7 @@ class CreateTasks < ActiveRecord::Migration
       t.integer :duration
       t.string :name
       t.boolean :complete
+      t.text :remark
 
       t.timestamps
     end
