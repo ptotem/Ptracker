@@ -7,7 +7,7 @@ class CreateTasks < ActiveRecord::Migration
       t.date :end_date
       t.integer :duration
       t.string :name
-      t.boolean :complete
+      t.boolean :complete, :default=>false
       t.text :remark
 
       t.timestamps

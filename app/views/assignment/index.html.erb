@@ -1,14 +1,67 @@
+<script type="text/javascript">
+    function update_assignment(user_id, task_id, obj) {
+        $this = obj;
+        $.ajax({
+            url:"/assign/" + user_id + "/" + task_id,
+            type:"post",
+            success:function (returning_data) {
+                $('#select_' + user_id).parent().html(returning_data.split("||")[0]);
+                $this.hide();
+                $this.prev().show();
+                $this.prev().find('.btn').each(function () {
+                    var replacement = $(this).attr('href').replace(":id", returning_data.split("||")[1]);
+                    $(this).attr('href', replacement);
+                });
+            }
+        });
+    }
+    $(function () {
+        $('select').chosen({allow_single_deselect:true}).change(function () {
+            $(this).parent().next().find('.assign_button').show();
+        });
+        $('.assign_button').click(function () {
+            update_assignment($(this).attr('id'), $('#select_' + $(this).attr('id')).val(), $(this));
+        });
+    })
+</script>
 <table class="table table-striped">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Assignment</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
   <% @users.each do |u| %>
       <tr>
         <td>
           <%= u.name %>
         </td>
-        <td>
-          <%= @user_status[u.name] %>
+        <td style="color:#333;">
+          <% if @user_status[u.name].blank? %>
+              <%= select_tag :task, grouped_options_for_select(Task.for_select), :id => "select_#{u.id}", :include_blank => true, :class => "span3" %>
+          <% else %>
+              <%= @user_status[u.name] %>
+          <% end %>
         </td>
         <td>
+          <% if @user_status[u.name].blank? %>
+              <div class="btn-group" style="display: none;">
+                <%= link_to "Done", "tasks/:id/mark_complete", :class => "btn btn-primary done_button" %>
+                <%= link_to "Defer", "tasks/:id/reactivate", :class => "btn defer_button" %>
+                <%= link_to "Cancel", "tasks/:id/cancel_assignment", :class => "btn btn-danger cancel_button" %>
+              </div>
+          <% else %>
+              <div class="btn-group">
+                <%= link_to "Done", mark_task_complete_path(@user_task[u.name]), :class => "btn btn-primary done_button" %>
+                <%= link_to "Defer", reactivate_task_path(@user_task[u.name]), :class => "btn defer_button" %>
+                <%= link_to "Cancel", cancel_task_assignment_path(@user_task[u.name]), :class => "btn btn-danger cancel_button" %>
+              </div>
+          <% end %>
+          <%= link_to "Update", "#", :id => u.id, :class => "btn btn-primary assign_button", :style => "display:none;" %>
         </td>
       </tr>
   <% end %>
+  </tbody>
 </table>

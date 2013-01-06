@@ -86,10 +86,10 @@ ActiveRecord::Schema.define(:version => 20130103175355) do
     t.date     "end_date"
     t.integer  "duration"
     t.string   "name"
-    t.boolean  "complete"
+    t.boolean  "complete",   :default => false
     t.text     "remark"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
   end
 
   create_table "users", :force => true do |t|

@@ -38,4 +38,9 @@ class Project < ActiveRecord::Base
     end
   end
 
+  def incomplete_tasks
+    #self.tasks.blank? ? "":self.tasks.where(complete=false).all
+    Task.all
+  end
+
 end

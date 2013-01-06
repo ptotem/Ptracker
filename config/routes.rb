@@ -12,6 +12,7 @@ Golpher::Application.routes.draw do
   resources :tasks
 
   match "/assignments", :to => "assignment#index", :as => "assignments"
+  match "/assign/:user_id/:task_id", :to => "assignment#assign", :as => "assign_task"
 
   match "/projects/:id/page_list", :to => "projects#page_list", :as => "page_list"
   match "/projects/:id/feature_list", :to => "projects#feature_list", :as => "feature_list"
@@ -22,6 +23,7 @@ Golpher::Application.routes.draw do
   match "/delete_tasks", :to => "tasks#delete_tasks", :as => "delete_tasks"
   match "tasks/:id/mark_complete", :to => "tasks#mark_complete", :as => "mark_task_complete"
   match "tasks/:id/reactivate", :to => "tasks#reactivate", :as => "reactivate_task"
+  match "tasks/:id/cancel_assignment", :to => "tasks#cancel_assignment", :as => "cancel_task_assignment"
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
 
   # The priority is based upon order of creation:

@@ -6,6 +6,8 @@ class Task < ActiveRecord::Base
   has_many :competences, :through => :task_competences
   accepts_nested_attributes_for :task_competences
 
+  before_save :set_start_date
+
   rails_admin do
     weight 2
     list do
@@ -19,13 +21,33 @@ class Task < ActiveRecord::Base
       field :project
       field :name
       field :user
+      field :start_date
       field :complete
       field :task_competences
     end
   end
 
   def uname
-    self.user.blank? ? "Unassigned": self.user.name
+    self.user.blank? ? "Unassigned" : self.user.name
+  end
+
+  def full_name
+    self.project.blank? ? name : "#{self.project.name} #{name}"
+  end
+
+  def self.for_select
+    Project.all.map do |project|
+      [project.name, project.tasks.where(complete: false).where(user_id: nil).map { |c| ["#{c.name} ( #{c.competences.map{|comp| comp.name}.join(", ")} )", c.id] }]
+    end
+  end
+
+
+  def set_start_date
+    unless self.user_id.blank?
+      if self.start_date.blank?
+        self.start_date=Date.today
+      end
+    end
   end
 
 end

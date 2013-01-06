@@ -150,15 +150,35 @@ class TasksController < ApplicationController
   def mark_complete
     @task=Task.find(params[:id])
     @task.complete=true
+    @task.end_date=Date.today
+    @task.duration=Date.today-@task.start_date
+    @task.save
+    redirect_to :back
+  end
+
+  def cancel_assignment
+    @task=Task.find(params[:id])
+    @task.user_id=""
+    @task.start_date=""
+    @task.end_date=""
+    @task.duration=""
     @task.save
     redirect_to :back
   end
 
   def reactivate
     @task=Task.find(params[:id])
-    task=Task.create!(project_id: @task.project_id, name: "#{@task.name} Bug Fix")
-    @task.competences.each do |competence|
-      TaskCompetence.create!(task_id: task.id, competence_id: competence.id)
+    unless @task.complete
+      @task.complete=true
+      @task.end_date=Date.today
+      @task.duration=Date.today-@task.start_date
+      @task.save
+    end
+    unless Task.find_all_by_name("#{@task.name} Revision")
+      task=Task.create!(project_id: @task.project_id, name: "#{@task.name} Revision")
+      @task.competences.each do |competence|
+        TaskCompetence.create!(task_id: task.id, competence_id: competence.id)
+      end
     end
     redirect_to :back
   end
