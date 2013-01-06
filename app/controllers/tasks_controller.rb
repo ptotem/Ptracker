@@ -131,7 +131,7 @@ class TasksController < ApplicationController
       if @target.save
         TaskCompetence.find_all_by_task_id(@source.id).each do |task_competence|
           task_competence.task_id=@target.id
-          task_competence.save! unless (TaskCompetence.find_all_by_competence_id_and_task_id(task_competence.competence_id, task_competence.task_id).length>1)
+          task_competence.save! unless (TaskCompetence.find_all_by_competence_id_and_task_id(task_competence.competence_id, task_competence.task_id).length>0)
         end
         @source.destroy
       end
@@ -151,7 +151,7 @@ class TasksController < ApplicationController
     @task=Task.find(params[:id])
     @task.complete=true
     @task.end_date=Date.today
-    @task.duration=Date.today-@task.start_date
+    @task.duration=(Date.today-@task.start_date).to_i+1
     @task.save
     redirect_to :back
   end
@@ -171,10 +171,10 @@ class TasksController < ApplicationController
     unless @task.complete
       @task.complete=true
       @task.end_date=Date.today
-      @task.duration=Date.today-@task.start_date
+      @task.duration=(Date.today-@task.start_date).to_i+1
       @task.save
     end
-    unless Task.find_all_by_name("#{@task.name} Revision")
+    unless Task.find_by_name("#{@task.name} Revision")
       task=Task.create!(project_id: @task.project_id, name: "#{@task.name} Revision")
       @task.competences.each do |competence|
         TaskCompetence.create!(task_id: task.id, competence_id: competence.id)
