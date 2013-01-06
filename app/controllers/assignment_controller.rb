@@ -4,9 +4,9 @@ class AssignmentController < ApplicationController
     @user_status=Hash.new
     @user_task=Hash.new
     @users.each do |u|
-      if !u.tasks.where("complete=?", false).blank?
-        @user_status[u.name]="#{u.tasks.where("complete=?", false).last.full_name}"
-        @user_task[u.name]="#{u.tasks.where("complete=?", false).last.id}"
+      if !u.current_task.nil?
+        @user_status[u.name]="#{u.current_task.full_name}"
+        @user_task[u.name]="#{u.current_task.id}"
       else
         @user_status[u.name]=""
         @user_task[u.name]=""

@@ -13,4 +13,8 @@ class User < ActiveRecord::Base
 
   has_many :tasks
 
+  def current_task
+    self.tasks.blank? ? nil:self.tasks.where("complete=?", false).last
+  end
+
 end

@@ -15,6 +15,6 @@
 //= require jquery-ui
 //= require_tree .
 //= require jquery.nested-fields
-//= require jquery.purr
 //= require best_in_place
+//= require jquery.purr
 //= require chosen-jquery

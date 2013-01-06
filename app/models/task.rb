@@ -41,7 +41,6 @@ class Task < ActiveRecord::Base
     end
   end
 
-
   def set_start_date
     unless self.user_id.blank?
       if self.start_date.blank?
