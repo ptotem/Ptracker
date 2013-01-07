@@ -7,11 +7,11 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 User.create!(:name=>"Administrator",:email => 'admin@ptotem.com', :password => 'crimsonking', :password_confirmation => 'crimsonking', :role=>"Admin")
-User.create!(:name=>"Arijit Lahiri",:email => 'arijit@ptotem.com', :password => '19loki76', :password_confirmation => '19loki76', :role=>"Projects")
+User.create!(:name=>"Arijit Lahiri",:email => 'arijit@ptotem.com', :password => '19loki76', :password_confirmation => '19loki76', :role=>"DevTeam")
 User.create!(:name=>"Surbhi Sawant",:email => 'surbhi@ptotem.com', :password => 'p20o20e13', :password_confirmation => 'p20o20e13', :role=>"Sales")
 User.create!(:name=>"Amol Bhor",:email => 'amol@ptotem.com', :password => 'p20o20e13', :password_confirmation => 'p20o20e13', :role=>"Sales")
 User.create!(:name=>"Arunkumar Balasubramanian",:email => 'arun@ptotem.com', :password => 'p20o20e13', :password_confirmation => 'p20o20e13', :role=>"Projects")
-User.create!(:name=>"Ashwin Kumar",:email => 'ashwin@ptotem.com', :password => 'p20o20e13', :password_confirmation => 'p20o20e13', :role=>"Projects")
+User.create!(:name=>"Ashwin Kumar",:email => 'ashwin@ptotem.com', :password => 'p20o20e13', :password_confirmation => 'p20o20e13', :role=>"DevTeam")
 User.create!(:name=>"Perseus Vazifdar",:email => 'perseus@ptotem.com', :password => 'p20o20e13', :password_confirmation => 'p20o20e13', :role=>"DevTeam")
 User.create!(:name=>"Sunny Singh",:email => 'sunny@ptotem.com', :password => 'p20o20e13', :password_confirmation => 'p20o20e13', :role=>"DevTeam")
 User.create!(:name=>"Nikunj Thakkar",:email => 'nikunj@ptotem.com', :password => 'p20o20e13', :password_confirmation => 'p20o20e13', :role=>"DevTeam")

@@ -28,7 +28,7 @@
         <% @projects.each do |project| -%>
             <tr class="<%= cycle("odd", "even") %>">
               <td style="font-size: 24px;padding:10px;">
-                <%= link_to raw(project.name), edit_project_path(project) %>
+                <%= project.name %>
               </td>
               <td>
                 <%= project.complete ? "Complete" : "" %>
