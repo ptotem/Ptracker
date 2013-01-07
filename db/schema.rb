@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130107114645) do
+ActiveRecord::Schema.define(:version => 20130107140814) do
 
   create_table "competences", :force => true do |t|
     t.string   "name"
@@ -33,6 +33,12 @@ ActiveRecord::Schema.define(:version => 20130107114645) do
     t.string   "ftype",      :default => "Standard"
     t.datetime "created_at",                         :null => false
     t.datetime "updated_at",                         :null => false
+  end
+
+  create_table "guidelines", :force => true do |t|
+    t.text     "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "page_tasks", :force => true do |t|

@@ -1,4 +1,5 @@
 Golpher::Application.routes.draw do
+
   get "assignment/index"
   get "welcome/index"
 
@@ -10,6 +11,7 @@ Golpher::Application.routes.draw do
     resources :tasks
   end
   resources :tasks
+  resources :guidelines
 
   match "/assignments", :to => "assignment#index", :as => "assignments"
   match "/assign/:user_id/:task_id", :to => "assignment#assign", :as => "assign_task"
