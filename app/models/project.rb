@@ -3,8 +3,8 @@ class Project < ActiveRecord::Base
   has_many :tasks, :dependent => :destroy
   has_many :pages, :dependent => :destroy
   has_many :features, :dependent => :destroy
-  accepts_nested_attributes_for :features, allow_destroy: true
-  accepts_nested_attributes_for :pages, allow_destroy: true
+  accepts_nested_attributes_for :features, allow_destroy: true, reject_if: proc { |attrs| reject = %w(name).all? { |a| attrs[a].blank? } }
+  accepts_nested_attributes_for :pages, allow_destroy: true, reject_if: proc { |attrs| reject = %w(name).all? { |a| attrs[a].blank? } }
   accepts_nested_attributes_for :tasks
   validates_presence_of :name
 

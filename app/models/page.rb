@@ -19,7 +19,7 @@ class Page < ActiveRecord::Base
     task_list=["Assets & Mockup", "User Interface", "Integration"]
     task_list_competency=["Design", "UI Coding", "Backend Coding"]
     task_list.each_with_index do |master_task, index|
-      task=Task.create!(project_id: project_id, name: "#{project.name} #{name} - #{master_task} ")
+      task=Task.create!(project_id: project_id, name: "#{name} - #{master_task} ")
       PageTask.create!(task_id: task.id, page_id: id)
       TaskCompetence.create!(task_id: task.id, competence_id: Competence.find_by_name(task_list_competency[index]).id)
     end

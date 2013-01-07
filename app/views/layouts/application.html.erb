@@ -24,9 +24,12 @@
   <div class="subnav">
     <ul class="nav nav-pills">
       <li><a href="/">Home</a></li>
-      <li><a href="/projects">Projects</a></li>
-      <li><a href="/assignments">Assignments</a></li>
-      <li><a href="/users">Developers</a></li>
+      <% if current_user.role=="Projects" %>
+          <li><a href="/projects">Projects</a></li>
+          <li><a href="/assignments">Assignments</a></li>
+          <li><a href="/users">Developers</a></li>
+      <% end %>
+      <li><a data-backdrop="static" data-toggle="modal" href="#history">History</a></li>
       <li class="pull-right"><%= link_to "Logout", destroy_user_session_path, :method => "delete" %></li>
     </ul>
   </div>
@@ -36,6 +39,34 @@
     </div>
   </div>
 </div>
+
+<div class="modal hide fade" id="history">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal">×</a>
+
+    <h3>History</h3>
+  </div>
+  <div class="modal-body">
+    <table class="table">
+      <tr>
+        <th>Task</th>
+        <th>Competence</th>
+        <th>Duration</th>
+      </tr>
+      <% current_user.tasks.where(complete: true).each do |t| %>
+          <tr>
+            <td><%= t.full_name %></td>
+            <td><%= t.competences.map { |c| c.name }.join(", ") %></td>
+            <td><%= t.duration %> days</td>
+          </tr>
+      <% end %>
+    </table>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn btn-danger" data-dismiss="modal">Close</a>
+  </div>
+</div>
+
 <script type="text/javascript">
     $(document).ready(function (e) {
         $('FORM').nestedFields();

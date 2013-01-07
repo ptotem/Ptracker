@@ -47,7 +47,7 @@ class ProjectsController < ApplicationController
       format.html # page_list.html.erb
       format.json { render json: @project }
     end
-    end
+  end
 
   def feature_list
     @project = Project.find(params[:id])
@@ -70,7 +70,6 @@ class ProjectsController < ApplicationController
   end
 
 
-
   # POST /projects
   # POST /projects.json
   def create
@@ -80,7 +79,7 @@ class ProjectsController < ApplicationController
       if @project.save
         format.html { redirect_to projects_path, notice: 'Project was successfully created.' }
       else
-        format.html { render action: "new" }
+        format.html { redirect_to project_tasks_path(@project), notice: 'Project could not be created.' }
         format.json { render json: @project.errors, status: :unprocessable_entity }
       end
     end
@@ -95,7 +94,7 @@ class ProjectsController < ApplicationController
       if @project.update_attributes(params[:project])
         format.html { redirect_to project_tasks_path(@project), notice: 'Project was successfully updated.' }
       else
-        format.html { render action: "new" }
+        format.html { redirect_to project_tasks_path(@project), notice: 'Project could not be updated.' }
         format.json { render json: @project.errors, status: :unprocessable_entity }
       end
     end

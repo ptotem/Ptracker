@@ -1,39 +1,12 @@
 <% if current_user.role=="DevTeam" %>
     <div class="row">
-      <div class="span6"><h1><%= current_user.current_task.full_name rescue "" %></h1></div>
+      <div class="span6"><h1><%= current_user.current_task.full_name rescue "" %></h1>
+        <%= link_to "Done", (mark_task_complete_path(current_user.current_task) rescue "#"), :class => "btn btn-primary btn-large done_button" %>
+      </div>
       <div class="span6">
         <div class="row">
-          <%= link_to "Done", mark_task_complete_path(current_user.current_task), :class => "btn btn-primary done_button pull-right spaced" %>
-          <a class="btn pull-right spaced" data-backdrop="static" data-toggle="modal" href="#history">History</a>
+          <%= (best_in_place current_user.current_task, :remark, :type => :textarea, :nil => "Click me to add your comments") rescue "No Tasks Assigned" %>
         </div>
-        <br>
-        <%= best_in_place current_user.current_task, :remark, :type => :textarea, :nil => "Click me to add your comments" %>
-      </div>
-    </div>
-    <div class="modal hide fade" id="history">
-      <div class="modal-header">
-        <a class="close" data-dismiss="modal">×</a>
-
-        <h3>History</h3>
-      </div>
-      <div class="modal-body">
-        <table class="table">
-          <tr>
-            <th>Task</th>
-            <th>Competence</th>
-            <th>Duration</th>
-          </tr>
-          <% current_user.tasks.where(complete: true).each do |t| %>
-              <tr>
-                <td><%= t.full_name %></td>
-                <td><%= t.competences.map { |c| c.name }.join(", ") %></td>
-                <td><%= t.duration %> days</td>
-              </tr>
-          <% end %>
-        </table>
-      </div>
-      <div class="modal-footer">
-        <a href="#" class="btn btn-danger" data-dismiss="modal">Close</a>
       </div>
     </div>
 <% elsif current_user.role=="Projects" %>

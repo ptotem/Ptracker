@@ -15,6 +15,7 @@ gem 'formtastic'
 gem 'awesome_nested_fields'
 gem 'best_in_place'
 gem 'chosen-rails'
+gem 'paperclip'
 
 
 # Gems used only for assets and not required
