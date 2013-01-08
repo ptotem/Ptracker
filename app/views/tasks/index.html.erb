@@ -44,8 +44,15 @@
             </div>
             <%= semantic_form_for @task do |f| %>
                 <div class="modal-body">
-                  <%= f.hidden_field :project_id, value: @project.id %>
-                  <%= f.inputs :name %>
+                  <%= semantic_fields_for :task_competences do |c| %>
+                      <%= c.inputs do %>
+                          <%= c.input :competence_id, :as => :select, :collection => Competence.all.map { |comp| [comp.name, comp.id] }, :input_html => {:style => "font-size:18px", :class=>"span5"} %>
+                      <% end %>
+                  <% end %>
+                  <div style="margin-top: -40px;">
+                    <%= f.hidden_field :project_id, value: @project.id %>
+                    <%= f.inputs :name %>
+                  </div>
                 </div>
                 <div class="modal-footer">
                   <%= f.submit "Save Changes", :class => "btn btn-primary" %>
@@ -176,6 +183,9 @@
     }
 
     $(function () {
+
+        $(".chosen_select").chosen();
+
         var c = {};
 
         $("tr.draggable").draggable({
