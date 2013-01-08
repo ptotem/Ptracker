@@ -3,7 +3,8 @@ class TasksController < ApplicationController
   # GET /tasks.json
   def index
     if params[:project_id]
-      @tasks = Project.find(params[:project_id]).tasks.order('created_at ASC').order('start_date ASC')
+      @project = Project.find(params[:project_id])
+      @tasks = @project.tasks.order('created_at ASC').order('start_date ASC')
     elsif params[:user_id]
       @tasks = User.find(params[:user_id]).tasks.order('created_at ASC')
     else
