@@ -13,6 +13,8 @@ class Ability
         can :access, :rails_admin # grant access to rails_admin
         can :dashboard
         can :manage, [Project, Task, User, Page, Feature, TaskAsset, TaskCompetence, Competence]
+        can :edit, TaskCompetence
+        can :read, Competence
         cannot :index, Competence
       when "DevTeam"
         can [:read, :edit], Task
