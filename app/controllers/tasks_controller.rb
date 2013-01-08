@@ -97,7 +97,7 @@ class TasksController < ApplicationController
     else
       @count.times do |c|
         task=Task.create!(project_id: @task.project_id, name: "#{@task.name} > Part #{c+1} ")
-        TaskCompetence.create!(task_id: task.id, competence_id: @task.task_competences.first.competence_id)
+        TaskCompetence.create!(task_id: task.id, competence_id: (@task.task_competences.first.competence_id rescue 8))
       end
     end
 
