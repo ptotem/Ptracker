@@ -8,6 +8,8 @@ class Task < ActiveRecord::Base
   accepts_nested_attributes_for :task_competences
   accepts_nested_attributes_for :task_assets
 
+  default_scope order('name ASC')
+
   before_save :set_start_date
 
   rails_admin do
