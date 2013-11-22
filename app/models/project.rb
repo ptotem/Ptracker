@@ -26,7 +26,7 @@ class Project < ActiveRecord::Base
 
   def make_tasks
     task_list=["Feature List", "Wireframes", "Page List", "Initialization Approval", "Initialization"]
-    task_list_competency=["Architecture", "Design", "Architecture", "Architecture", "Architecture"]
+    task_list_competency=["Logic", "Design", "Logic", "Logic", "Logic"]
     task_list_remarks=["Put the Feature List in the Ptracker to complete",
                        "Create a remark containing the Balsamic URL to the wireframes to complete",
                        "Put the Page List in the Ptracker to complete",
